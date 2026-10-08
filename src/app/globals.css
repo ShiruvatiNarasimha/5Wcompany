@@ -1,0 +1,318 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------------
+   Tokens
+   The palette is deliberately small: warm paper, near-black ink, and one
+   accent (proofreader's vermilion) reserved for marks, focus and state —
+   never for large fills. Tailwind's default palette is removed so only
+   these tokens exist.
+   ------------------------------------------------------------------------ */
+
+@theme {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-white: #ffffff;
+
+  /* Paper (default surfaces) */
+  --color-paper: #f5f4f0;
+  --color-paper-2: #ecebe5;
+  --color-surface: #fbfaf8;
+  --color-ink: #121210;
+  --color-ink-2: #3b3a36;
+  --color-muted: #6b6963;
+  --color-line: #dcd9d1;
+  --color-line-strong: #c6c2b8;
+
+  /* Night (inverted sections) */
+  --color-night: #10100e;
+  --color-night-2: #1b1b18;
+  --color-night-ink: #f2f0ea;
+  --color-night-muted: #9b988f;
+  --color-night-line: #2d2c28;
+
+  /* Accent: marks and state only. accent-ink passes AA for small text on paper. */
+  --color-accent: #d24a1e;
+  --color-accent-ink: #b23c13;
+
+  /* Type scale — fluid between 375px and 1440px */
+  --text-display: clamp(2.75rem, 1.5rem + 5.4vw, 6.5rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.028em;
+
+  --text-headline: clamp(2.25rem, 1.45rem + 3.2vw, 4.25rem);
+  --text-headline--line-height: 1.04;
+  --text-headline--letter-spacing: -0.024em;
+
+  --text-title: clamp(1.875rem, 1.35rem + 2vw, 3rem);
+  --text-title--line-height: 1.08;
+  --text-title--letter-spacing: -0.02em;
+
+  --text-heading: clamp(1.5rem, 1.25rem + 0.9vw, 2.125rem);
+  --text-heading--line-height: 1.15;
+  --text-heading--letter-spacing: -0.014em;
+
+  --text-lede: clamp(1.125rem, 1.02rem + 0.42vw, 1.375rem);
+  --text-lede--line-height: 1.5;
+  --text-lede--letter-spacing: -0.008em;
+
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.65;
+
+  --text-meta: 0.75rem;
+  --text-meta--line-height: 1rem;
+  --text-meta--letter-spacing: 0.08em;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Shape */
+  --radius-control: 4px;
+  --radius-sheet: 6px;
+}
+
+@theme inline {
+  --font-serif: var(--font-newsreader), "Iowan Old Style", Georgia, serif;
+  --font-sans:
+    var(--font-geist), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-mono:
+    var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+:root {
+  /* Layout rhythm */
+  --gutter: clamp(1.25rem, 0.6rem + 2.8vw, 3rem);
+  --section-y: clamp(6rem, 3.5rem + 9vw, 11rem);
+  --nav-h: 4rem;
+}
+
+/* ------------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------------ */
+
+@layer base {
+  html {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--nav-h) + 1rem);
+    color-scheme: light;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    min-height: 100%;
+    background-color: var(--color-paper);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    font-kerning: normal;
+  }
+
+  p,
+  li,
+  dd {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Programmatic focus targets (skip link, menu) shouldn't draw a ring. */
+  [tabindex="-1"]:focus {
+    outline: none;
+  }
+}
+
+/* ------------------------------------------------------------------------
+   Utilities
+   ------------------------------------------------------------------------ */
+
+@utility container-page {
+  width: 100%;
+  max-width: 84rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+@utility section-y {
+  padding-block: var(--section-y);
+}
+
+@utility text-meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  line-height: var(--text-meta--line-height);
+  letter-spacing: var(--text-meta--letter-spacing);
+  text-transform: uppercase;
+  font-feature-settings: "tnum";
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Underline that draws in from the left on hover — used for text links. */
+@utility link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 400ms var(--ease-out-expo);
+
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+/* ------------------------------------------------------------------------
+   Skip link
+   ------------------------------------------------------------------------ */
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.625rem 1rem;
+  border-radius: var(--radius-control);
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(calc(-100% - 1rem));
+  transition:
+    transform 200ms var(--ease-out-quart),
+    opacity 200ms var(--ease-out-quart);
+}
+
+.skip-link:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+
+/* ------------------------------------------------------------------------
+   Motion
+   Everything below is opt-in: nothing moves for people who ask for reduced
+   motion, and nothing is hidden before JavaScript can reveal it.
+   ------------------------------------------------------------------------ */
+
+@keyframes rise {
+  from {
+    transform: translate3d(0, 108%, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes draw-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Hero headline: each word rises out of its own mask on first paint. */
+.mask-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* Room for descenders inside the mask, given back to the line box. */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.mask-word > span {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mask-word > span {
+    animation: rise 1100ms var(--ease-out-expo) both;
+    animation-delay: calc(140ms + var(--i, 0) * 55ms);
+  }
+
+  .intro {
+    animation: fade-up 1000ms var(--ease-out-expo) both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  .intro-rule {
+    transform-origin: left center;
+    animation: draw-x 1400ms var(--ease-out-expo) both;
+    animation-delay: var(--d, 0ms);
+  }
+}
+
+/* Scroll reveals, driven by <RevealObserver />. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    transition:
+      opacity 900ms var(--ease-out-quart),
+      transform 1100ms var(--ease-out-expo);
+    transition-delay: var(--d, 0ms);
+  }
+
+  [data-reveal][data-revealed] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Rules inside a revealed block draw from the left. */
+  [data-reveal] [data-rule] {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 1200ms var(--ease-out-expo);
+    transition-delay: calc(var(--d, 0ms) + 200ms);
+  }
+
+  [data-reveal][data-revealed] [data-rule] {
+    transform: none;
+  }
+}
