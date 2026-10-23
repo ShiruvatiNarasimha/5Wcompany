@@ -10,7 +10,6 @@ npm run lint
 
 ## Before launch: content to confirm
 
-The current site (5wcompany.com) could not be reached while this redesign was
 built, so **all copy is derived only from the company name** and the five
 questions it stands for. It contains no customers, metrics, testimonials,
 logos or claims that would need evidence.
