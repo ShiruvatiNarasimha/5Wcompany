@@ -9,7 +9,6 @@ npm run lint
 ## Before launch: content to confirm
 
 built, so **all copy is derived only from the company name** and the five
-questions it stands for. It contains no customers, metrics, testimonials,
 logos or claims that would need evidence.
 
 Every word lives in [`src/content/site.ts`](src/content/site.ts). Check these
