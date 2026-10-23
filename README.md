@@ -1,6 +1,5 @@
 # 5W Company — website
 
-The landing page for 5W Company. Next.js 16 (App Router, static), React 19,
 
 ```bash
 npm install
